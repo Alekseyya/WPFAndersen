@@ -5,7 +5,9 @@ using System.Data.Entity;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using Model.Entities;
+using Ninject;
 using ViewModel.Repositories;
+using ViewModel.Repositories.Base;
 
 namespace ViewModel
 {
@@ -14,7 +16,7 @@ namespace ViewModel
         private Client selectedClient;
         private DatabaseContext db;
 
-        private UnitOfWork _unitOfWork;
+        private IUnitOfWork _unitOfWork;
         
         public ObservableCollection<Client> Clients { get; set; }
 
@@ -30,19 +32,22 @@ namespace ViewModel
 
         public ClientViewModel()
         {
-            _unitOfWork = new UnitOfWork();
+            IKernel ninjectKernel = new StandardKernel();
+            ninjectKernel.Bind<IUnitOfWork>().To<UnitOfWork>();
+            _unitOfWork = ninjectKernel.Get<IUnitOfWork>();
+
             db = new DatabaseContext();
             db.Clients.Load();
             Clients = db.Clients.Local;
         }
 
 
-        //public void GetAllClients()
-        //{
-        //    db.Clients.Load();
-        //    var temp = db.Clients.Local;
-        //    Clients = temp;
-        //}
+        public void GetAllClients()
+        {
+            db.Clients.Load();
+            var temp = db.Clients.Local;
+            Clients = temp;
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName]string prop = "")
