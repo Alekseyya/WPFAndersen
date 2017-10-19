@@ -8,7 +8,7 @@
         Title="MainWindow" Height="350" Width="525">
     <Grid>
         <StackPanel>
-            <DataGrid x:Name="DatabaseGrid" AutoGenerateColumns="False">
+            <DataGrid x:Name="DatabaseGrid" AutoGenerateColumns="False" ItemsSource ="{Binding Clients}" SelectedItem="Binding SelectedClient">
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding FirstName}" Header="FirstName" Width="100"></DataGridTextColumn>
                     <DataGridTextColumn Binding="{Binding LastName}" Header="LastName" Width="100"></DataGridTextColumn>
