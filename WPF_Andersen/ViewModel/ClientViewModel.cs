@@ -14,8 +14,6 @@ namespace ViewModel
     public class ClientViewModel: INotifyPropertyChanged
     {
         private Client selectedClient;
-        private DatabaseContext db;
-
         private IUnitOfWork _unitOfWork;
         
         public ObservableCollection<Client> Clients { get; set; }
@@ -36,18 +34,19 @@ namespace ViewModel
             ninjectKernel.Bind<IUnitOfWork>().To<UnitOfWork>();
             _unitOfWork = ninjectKernel.Get<IUnitOfWork>();
 
-            db = new DatabaseContext();
-            db.Clients.Load();
-            Clients = db.Clients.Local;
+            //Вывести через юнит оф ворк
+            var temp = _unitOfWork.ClientRepository.GetList();
+            Clients = new ObservableCollection<Client>(temp);
+
         }
 
 
-        public void GetAllClients()
-        {
-            db.Clients.Load();
-            var temp = db.Clients.Local;
-            Clients = temp;
-        }
+        //public void GetAllClients()
+        //{
+        //    db.Clients.Load();
+        //    var temp = db.Clients.Local;
+        //    Clients = temp;
+        //}
 
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName]string prop = "")
