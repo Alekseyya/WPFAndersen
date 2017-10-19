@@ -1,7 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace ViewModel.Repositories.Base
+namespace DAL.Repositories.Base
 {
     public interface IBaseRepository<T> where T : class
     {

@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
+using DAL.Repositories.Base;
 using Model.Entities;
-using ViewModel.Repositories.Base;
+using System.Data.Entity;
 
-namespace ViewModel.Repositories
+namespace DAL.Repositories
 {
     public class ClientRepository : IClientRepository
     {
@@ -76,6 +76,26 @@ namespace ViewModel.Repositories
                 _context.Entry(client).State = EntityState.Modified;
                 _context.SaveChanges();
             }
+        }
+
+        private bool disposed = false;
+
+        public virtual void Dispose(bool disposing)
+        {
+            if (!this.disposed)
+            {
+                if (disposing)
+                {
+                    _context.Dispose();
+                }
+            }
+            this.disposed = true;
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
 }

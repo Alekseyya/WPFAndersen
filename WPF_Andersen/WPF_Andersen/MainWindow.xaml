@@ -8,14 +8,18 @@
         Title="MainWindow" Height="350" Width="525">
     <Grid>
         <StackPanel>
-            <DataGrid x:Name="DatabaseGrid" AutoGenerateColumns="False" ItemsSource ="{Binding Clients}" SelectedItem="Binding SelectedClient">
+            <DataGrid x:Name="DatabaseGrid" AutoGenerateColumns="False" SelectionMode="Single" ItemsSource ="{Binding Clients}" SelectedItem="Binding SelectedClient" MouseDoubleClick="DoubleMouseClickOnRowDataGrid">
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding FirstName}" Header="FirstName" Width="100"></DataGridTextColumn>
                     <DataGridTextColumn Binding="{Binding LastName}" Header="LastName" Width="100"></DataGridTextColumn>
                     <DataGridTextColumn Binding="{Binding Age}" Header="Age" Width="50"></DataGridTextColumn>
                 </DataGrid.Columns>
             </DataGrid>
-            <Button x:Name="UpdateButton" Content="Update" Width="60" HorizontalAlignment="Left" Click="UpdateButton_Click"></Button>
+            <Button x:Name="UpdateButton" Width="60" HorizontalAlignment="Left" Click="UpdateButton_Click">
+                <Button.Content>
+                    <TextBox Text="Button"></TextBox>
+                </Button.Content>
+            </Button>
         </StackPanel>
     </Grid>
 </Window>
