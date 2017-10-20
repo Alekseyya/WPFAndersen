@@ -1,5 +1,9 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Animation;
 
 namespace WPF_Andersen
 {
@@ -11,6 +15,12 @@ namespace WPF_Andersen
         {
             InitializeComponent();
             DataContext = new ClientViewModel();
+
+            DoubleAnimation buttonAnimation = new DoubleAnimation();
+            buttonAnimation.From = UpdateButton.ActualWidth;
+            buttonAnimation.To = 150;
+            buttonAnimation.Duration = TimeSpan.FromSeconds(3);
+            UpdateButton.BeginAnimation(Button.WidthProperty, buttonAnimation);
             // _allClients = new ViewModel.ClientViewModel();
 
             //db = new DatabaseContext();

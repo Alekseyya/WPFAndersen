@@ -93,7 +93,8 @@ namespace WPF_Andersen
         public bool HaveClientOnDatabase(Client client)
         {
             var flag = _clientRepository
-                .GetList().Where(cl => cl.FirstName == client.FirstName && cl.LastName == client.LastName && cl.Age == client.Age).Any();
+                .GetList().Where(cl => cl.FirstName == client.FirstName && cl.LastName == client.LastName && cl.Age == client.Age)
+                          .Any();
             return flag;
         }
         public RelayCommand DeleteMember

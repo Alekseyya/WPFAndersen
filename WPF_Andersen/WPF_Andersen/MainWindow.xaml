@@ -22,10 +22,25 @@
             <Grid>
                 <Button x:Name="UpdateButton" Content="Load" Width="60" Height="30" HorizontalAlignment="Left" Click="UpdateButton_Click"></Button>
                 <Button x:Name="DeleteMemmberButton" Visibility="Hidden" Content="DeleteMember" Width="60" Height="30" HorizontalAlignment="Center" Command="{Binding DeleteMember}"></Button>
-                
+                <Image Source="Resources/smile.png" Height="50" Width="50">
+                    <Image.RenderTransform>
+                        <RotateTransform x:Name="rotate"
+                                         CenterX="25"
+                                         CenterY="25"/>
+                    </Image.RenderTransform>
+                    <Image.Triggers>
+                        <EventTrigger RoutedEvent="Loaded">
+                            <BeginStoryboard>
+                                <Storyboard RepeatBehavior="Forever">
+                                    <DoubleAnimation Storyboard.TargetName="rotate"
+                                                     Storyboard.TargetProperty="Angle"
+                                                     By="360" Duration="0:0:1"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </Image.Triggers>
+                </Image>
             </Grid>
-            
-            
             <StackPanel x:Name="AddMember" Visibility="Hidden">
                 <StackPanel HorizontalAlignment="Center">
                     <StackPanel>
