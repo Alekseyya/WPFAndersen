@@ -14,7 +14,7 @@ using WPF_Andersen.IoC;
 
 namespace WPF_Andersen
 {
-    public class ClientViewModel : INotifyPropertyChanged
+    public class ClientViewModel : PropertyChangedEvent
     {
         private Client _selectedClient;
         private IClientRepository _clientRepository;
@@ -150,11 +150,11 @@ namespace WPF_Andersen
             updateWindow.Show();
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName]string prop = "")
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(prop));
-        }
+        //public event PropertyChangedEventHandler PropertyChanged;
+        //public void OnPropertyChanged([CallerMemberName]string prop = "")
+        //{
+        //    if (PropertyChanged != null)
+        //        PropertyChanged(this, new PropertyChangedEventArgs(prop));
+        //}
     }
 }

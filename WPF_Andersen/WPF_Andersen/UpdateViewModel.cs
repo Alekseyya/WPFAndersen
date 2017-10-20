@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Windows;
 using DAL.Repositories.Base;
 using Model.Entities;
 
@@ -30,6 +31,7 @@ namespace WPF_Andersen
                            var client = SelectedClient;
                            _clientRepository.Update(client);
                            SelectedClient = client;
+                           MessageBox.Show("Update competed");
                        }));
             }
         }
