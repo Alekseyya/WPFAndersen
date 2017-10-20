@@ -17,7 +17,9 @@
                     <TextBlock Margin="0 15 0 5">Age</TextBlock>
                     <TextBox x:Name="RenameAgeTextBox" Text="{Binding Age}"></TextBox>
                 </StackPanel>
-                <Button Command="{Binding UpdateMember}" Content="Update" HorizontalAlignment="Right" Margin="0 0 15 0"></Button>
+                <Button Command="{Binding UpdateMember}" Content="Update" HorizontalAlignment="Right" Margin="0 0 15 0">
+                    
+                </Button>
             </StackPanel>
         </StackPanel>
         
