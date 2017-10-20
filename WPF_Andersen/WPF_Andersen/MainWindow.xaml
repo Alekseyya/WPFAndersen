@@ -26,7 +26,7 @@
     </Window.Resources>
     <Grid>
         <StackPanel>
-            <DataGrid x:Name="DatabaseGrid" AutoGenerateColumns="False" SelectionMode="Single" ItemsSource ="{Binding Clients}" SelectedItem="Binding SelectedClient" MouseDoubleClick="DoubleMouseClickOnRowDataGrid">
+            <DataGrid x:Name="DatabaseGrid" AutoGenerateColumns="False" SelectionMode="Single" ItemsSource ="{Binding Clients}" SelectedItem="{Binding SelectedClient}" MouseDoubleClick="DoubleMouseClickOnRowDataGrid">
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding FirstName}" Header="FirstName" Width="100"></DataGridTextColumn>
                     <DataGridTextColumn Binding="{Binding LastName}" Header="LastName" Width="100"></DataGridTextColumn>
