@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using DAL.Repositories;
+using DAL.Repositories.Base;
 using Ninject;
 
 namespace WPF_Andersen.IoC
 {
-    static class IoC
+     public static class IoC
     {
         private static IKernel _kernel;
 

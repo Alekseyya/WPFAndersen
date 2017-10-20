@@ -1,8 +1,6 @@
-﻿using System.Data.Entity;
-using System.Linq;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Input;
-using ViewModel;
+
 
 namespace WPF_Andersen
 {

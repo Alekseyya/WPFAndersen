@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using DAL.Repositories;
+using DAL.Repositories.Base;
 using Model.Entities;
 using Ninject;
 
