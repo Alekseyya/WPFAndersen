@@ -4,8 +4,12 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPF_Andersen"
+        xmlns:converters="clr-namespace:WPF_Andersen.Converters"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
+    <Window.Resources>
+        <converters:SimpleConverter x:Key="myConverter"></converters:SimpleConverter>
+    </Window.Resources>
     <Grid>
         <StackPanel>
             <DataGrid x:Name="DatabaseGrid" AutoGenerateColumns="False" SelectionMode="Single" ItemsSource ="{Binding Clients}" SelectedItem="Binding SelectedClient" MouseDoubleClick="DoubleMouseClickOnRowDataGrid">
@@ -30,7 +34,7 @@
                         <TextBlock Margin="0 15 0 5">LastName</TextBlock>
                         <TextBox x:Name="LastNameTextBox" Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}"></TextBox>
                         <TextBlock Margin="0 15 0 5">Age</TextBlock>
-                        <TextBox x:Name="AgeTextBox" Text="{Binding Age, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                        <TextBox x:Name="AgeTextBox" Text="{Binding Age, Converter={StaticResource myConverter}, UpdateSourceTrigger=PropertyChanged}"></TextBox>
                     </StackPanel>
                 </StackPanel>
                 <Grid>
@@ -41,3 +45,4 @@
         
     </Grid>
 </Window>
+

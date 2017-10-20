@@ -2,7 +2,9 @@
 using Model.Entities;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Windows;
 using DAL.Repositories.Base;
 using WPF_Andersen.IoC;
 
@@ -17,7 +19,7 @@ namespace WPF_Andersen
 
         private string _firstName;
         private string _lastName;
-        private int _age;
+        private int _age = 0;
         
         public string FirstName
         {
@@ -66,17 +68,33 @@ namespace WPF_Andersen
                 return _addMember ??
                        (_addMember = new RelayCommand(obj =>
                        {
-                           var client = new Client()
-                           {
-                               FirstName = FirstName,
-                               LastName = LastName,
-                               Age = Age
-                           };
-
-                           _clientRepository.Create(client);
-                           SelectedClient = client;
+                           AddMemberOnDatabase();
                        }));
             }
+        }
+
+        public void AddMemberOnDatabase()
+        {
+            var client = new Client()
+            {
+                FirstName = FirstName,
+                LastName = LastName,
+                Age = Age
+            };
+            if (!HaveClientOnDatabase(client))
+            {
+                _clientRepository.Create(client);
+                SelectedClient = client;
+            }
+            else
+                MessageBox.Show("Такой пользователь уже существует");
+
+        }
+        public bool HaveClientOnDatabase(Client client)
+        {
+            var flag = _clientRepository
+                .GetList().Where(cl => cl.FirstName == client.FirstName && cl.LastName == client.LastName && cl.Age == client.Age).Any();
+            return flag;
         }
         public RelayCommand DeleteMember
         {
