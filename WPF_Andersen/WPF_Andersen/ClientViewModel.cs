@@ -1,9 +1,13 @@
-﻿using DAL.Repositories;
+﻿using System;
+using DAL.Repositories;
 using Model.Entities;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using DAL.Repositories.Base;
 using WPF_Andersen.IoC;
@@ -61,6 +65,24 @@ namespace WPF_Andersen
             }
         }
 
+        public RelayCommand DeleteMember
+        {
+            get
+            {
+                return _deleteMember ??
+                       (_deleteMember = new RelayCommand(obj =>
+                           {
+                               Client client = obj as Client;
+                               if (client != null)
+                               {
+                                   _clientRepository.Delete(client.Id);
+                                   Clients.Remove(client);
+
+                               }
+                           }));
+            }
+        }
+
         public RelayCommand AddMember
         {
             get
@@ -97,28 +119,28 @@ namespace WPF_Andersen
                           .Any();
             return flag;
         }
-        public RelayCommand DeleteMember
-        {
-            get
-            {
-                return _deleteMember ??
-                       (_deleteMember = new RelayCommand(obj =>
-                       {
-                           var client = SelectedClient;
-                           _clientRepository.Delete(SelectedClient.Id);
-                           SelectedClient = client;
-                       }));
-            }
-        }
-
+       
         public ClientViewModel()
         {
             _clientRepository = IoC.IoC.Get<IClientRepository>();
         }
 
-        public void Load()
+        public async Task Load()
         {
-            Clients = new ObservableCollection<Client>(_clientRepository.GetList());
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+            await Task.Run(() =>
+            {
+                Thread.Sleep(5000);
+                Clients = new ObservableCollection<Client>(_clientRepository.GetList());
+            });
+            sw.Stop();
+            TimeSpan ts = sw.Elapsed;
+            
+            string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
+                ts.Hours, ts.Minutes, ts.Seconds,
+                ts.Milliseconds / 10);
+            MessageBox.Show(elapsedTime);
         }
         public void Open(object client)
         {

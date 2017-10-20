@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -21,18 +22,13 @@ namespace WPF_Andersen
             buttonAnimation.To = 150;
             buttonAnimation.Duration = TimeSpan.FromSeconds(3);
             UpdateButton.BeginAnimation(Button.WidthProperty, buttonAnimation);
-            // _allClients = new ViewModel.ClientViewModel();
-
-            //db = new DatabaseContext();
-            //db.Clients.Load();
-            //DatabaseGrid.ItemsSource = db.Clients.Local.ToBindingList();
         }
 
-        private void UpdateButton_Click(object sender, RoutedEventArgs e)
+        private async void UpdateButton_Click(object sender, RoutedEventArgs e)
         {
             var viewModel = DataContext as ClientViewModel;
             if(viewModel == null) return;
-            viewModel.Load();
+            await viewModel.Load();
             DeleteMemmberButton.Visibility = Visibility.Visible;
             AddMember.Visibility = Visibility.Visible;
         }

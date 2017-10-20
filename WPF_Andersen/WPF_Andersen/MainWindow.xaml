@@ -6,9 +6,23 @@
         xmlns:local="clr-namespace:WPF_Andersen"
         xmlns:converters="clr-namespace:WPF_Andersen.Converters"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="500" Width="525">
+    
     <Window.Resources>
         <converters:SimpleConverter x:Key="myConverter"></converters:SimpleConverter>
+        <Style x:Key="RedAndWhite">
+            <Setter Property="Control.FontFamily" Value="Verdana" />
+            <Setter Property="Control.Background" Value="Red" />
+            <Setter Property="Control.Margin" Value="10" />
+            <!--Обычный триггер, срабатывает после изменения свойства-->
+            <Style.Triggers>
+                <Trigger Property="Control.IsMouseOver" Value="True">
+                    <Setter Property="Control.FontSize" Value="14" />
+                    <Setter Property="Control.Foreground" Value="Blue" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        
     </Window.Resources>
     <Grid>
         <StackPanel>
@@ -21,8 +35,8 @@
             </DataGrid>
             <Grid>
                 <Button x:Name="UpdateButton" Content="Load" Width="60" Height="30" HorizontalAlignment="Left" Click="UpdateButton_Click"></Button>
-                <Button x:Name="DeleteMemmberButton" Visibility="Hidden" Content="DeleteMember" Width="60" Height="30" HorizontalAlignment="Center" Command="{Binding DeleteMember}"></Button>
-                <Image Source="Resources/smile.png" Height="50" Width="50">
+                <Button x:Name="DeleteMemmberButton" Visibility="Hidden" Content="DeleteMember" Width="60" Height="30" HorizontalAlignment="Center" Command="{Binding DeleteMember}" CommandParameter="{Binding SelectedClient}"></Button>
+                <!--<Image Source="Resources/smile.png" Height="50" Width="50">
                     <Image.RenderTransform>
                         <RotateTransform x:Name="rotate"
                                          CenterX="25"
@@ -39,7 +53,7 @@
                             </BeginStoryboard>
                         </EventTrigger>
                     </Image.Triggers>
-                </Image>
+                </Image>-->
             </Grid>
             <StackPanel x:Name="AddMember" Visibility="Hidden">
                 <StackPanel HorizontalAlignment="Center">
@@ -53,7 +67,9 @@
                     </StackPanel>
                 </StackPanel>
                 <Grid>
-                    <Button x:Name="AddMemberButton" Content="Add" Width="30" Height="30" HorizontalAlignment="Center" Command="{Binding AddMember}"></Button>
+                    <Button x:Name="AddMemberButton" Content="Add" Width="30" Height="30" HorizontalAlignment="Center" Command="{Binding AddMember}" Style="{StaticResource RedAndWhite}">
+                        
+                    </Button>
                 </Grid>
             </StackPanel>
         </StackPanel>
