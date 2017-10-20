@@ -7,31 +7,21 @@
         mc:Ignorable="d"
         Title="UpdateWindow" Height="300" Width="300">
     <Grid>
-        <StackPanel Orientation="Horizontal" FlowDirection="LeftToRight" DataContext="{Binding SelectedClient}">
-            <StackPanel DataContext="Binding SelectedClient">
-                <TextBlock Margin="0 10 0 5">FirstName</TextBlock>
-                <TextBox x:Name="RenameFirstNameTextBox" Text="{Binding SelectedItem.Name, ElementName=UpdatedDataGrid}"></TextBox>
-                <TextBlock Margin="0 15 0 5">LastName</TextBlock>
-                <TextBox x:Name="RenameLastNameTextBox" Text="{Binding LastName}"></TextBox>
-                <TextBlock Margin="0 15 0 5">Age</TextBlock>
-                <TextBox x:Name="RenameAgeTextBox" Text="{Binding Age}"></TextBox>
-            </StackPanel>
-            <StackPanel>
-                <TextBlock HorizontalAlignment="Center">Изменение </TextBlock>
-                <DataGrid x:Name="UpdatedDataGrid" AutoGenerateColumns="False" SelectionMode="Single" ItemsSource ="{Binding Clients}" SelectedItem="Binding SelectedClient">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Binding="{Binding FirstName}" Header="FirstName" Width="50"></DataGridTextColumn>
-                        <DataGridTextColumn Binding="{Binding LastName}" Header="LastName" Width="50"></DataGridTextColumn>
-                        <DataGridTextColumn Binding="{Binding Age}" Header="Age" Width="50"></DataGridTextColumn>
-                    </DataGrid.Columns>
-                </DataGrid>
-                <Grid Margin="0 15 0 0">
-                    <Button Width="40" Height="20" Content="Delete" HorizontalAlignment="Right"/>
-                    <Button Width="45" Height="20" Content="Update"></Button>
-                    <Button Width="40" Height="20" Content="Add" HorizontalAlignment="Left"/>
-                </Grid>
+        <StackPanel>
+            <StackPanel HorizontalAlignment="Center">
+                <StackPanel DataContext="{Binding SelectedClient}">
+                    <TextBlock Margin="0 10 0 5">FirstName</TextBlock>
+                    <TextBox x:Name="RenameFirstNameTextBox" Text="{Binding FirstName}"></TextBox>
+                    <TextBlock Margin="0 15 0 5">LastName</TextBlock>
+                    <TextBox x:Name="RenameLastNameTextBox" Text="{Binding LastName}"></TextBox>
+                    <TextBlock Margin="0 15 0 5">Age</TextBlock>
+                    <TextBox x:Name="RenameAgeTextBox" Text="{Binding Age}"></TextBox>
+                </StackPanel>
+                <Button Command="{Binding UpdateMember}" Content="Update" HorizontalAlignment="Right" Margin="0 0 15 0"></Button>
             </StackPanel>
         </StackPanel>
         
+        
+
     </Grid>
 </Window>

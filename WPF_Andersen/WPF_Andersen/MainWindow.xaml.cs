@@ -1,7 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Input;
 
-
 namespace WPF_Andersen
 {
     public partial class MainWindow : Window
@@ -24,7 +23,8 @@ namespace WPF_Andersen
             var viewModel = DataContext as ClientViewModel;
             if(viewModel == null) return;
             viewModel.Load();
-            // DataContext = _allClients;
+            DeleteMemmberButton.Visibility = Visibility.Visible;
+            AddMember.Visibility = Visibility.Visible;
         }
 
 
@@ -32,9 +32,13 @@ namespace WPF_Andersen
         {
             if (DatabaseGrid.SelectedItem == null) return;
             var selectedClient = DatabaseGrid.SelectedItem;
-            UpdateWindow updateWindow = new UpdateWindow();
-            updateWindow.Show();
-            DataContext = selectedClient;
+            var viewModel = DataContext as ClientViewModel;
+            viewModel.Open(selectedClient);
+
+
+            //UpdateWindow updateWindow = new UpdateWindow();
+            //updateWindow.Show();
+            //DataContext = selectedClient;
             //DataContext = _allClients;
         }
     }
