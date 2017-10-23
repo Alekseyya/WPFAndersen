@@ -8,8 +8,7 @@ namespace WPF_Andersen
 {
     public partial class MainWindow : Window
     {
-        //private ViewModel.ClientViewModel _allClients;
-        //private DatabaseContext db;
+        private bool _updateButtonClick = false;
         public MainWindow()
         {
             InitializeComponent();
@@ -26,9 +25,19 @@ namespace WPF_Andersen
         {
             var viewModel = DataContext as ClientViewModel;
             if(viewModel == null) return;
-            if (viewModel.tokenSource.IsCancellationRequested)
-                viewModel.ResetSourceAndToken();
-            await viewModel.Load();
+            if (!_updateButtonClick)
+            {
+                _updateButtonClick = true;
+                await viewModel.Load();
+            }
+            else
+            {
+                viewModel.tokenSource.Cancel();
+                if (viewModel.tokenSource.IsCancellationRequested)
+                    viewModel.ResetSourceAndToken();
+                await viewModel.Load();
+            }
+
             DeleteMemmberButton.Visibility = Visibility.Visible;
             AddMember.Visibility = Visibility.Visible;
         }
@@ -40,12 +49,6 @@ namespace WPF_Andersen
             var selectedClient = DatabaseGrid.SelectedItem;
             var viewModel = DataContext as ClientViewModel;
             viewModel.Open(selectedClient);
-
-
-            //UpdateWindow updateWindow = new UpdateWindow();
-            //updateWindow.Show();
-            //DataContext = selectedClient;
-            //DataContext = _allClients;
         }
 
         private void TextBox_Error(object sender, ValidationErrorEventArgs e)

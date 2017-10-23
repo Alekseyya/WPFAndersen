@@ -161,7 +161,6 @@ namespace WPF_Andersen
             Clients.Remove(client);
         }
        
-        //Недоделано..
         public async Task Load()
         {
             Stopwatch sw = new Stopwatch();
@@ -176,7 +175,7 @@ namespace WPF_Andersen
             MessageBox.Show(elapsedTime);
         }
 
-        public async Task LoadAsync()
+        private async Task LoadAsync()
         {
             await Task.Run(() =>
             {
@@ -194,6 +193,7 @@ namespace WPF_Andersen
                 Clients = new ObservableCollection<Client>(listClients);
             }, token);
         }
+
         public void Open(object client)
         {
             var updateWindow = new UpdateWindow();
