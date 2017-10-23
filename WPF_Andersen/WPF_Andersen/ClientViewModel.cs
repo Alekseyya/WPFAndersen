@@ -44,15 +44,17 @@ namespace WPF_Andersen
         //        OnPropertyChanged();
         //    }
         //}
-        public string LastName
-        {
-            get { return _lastName; }
-            set { _lastName = value; }
-        }
-        public int Age {
-            get { return _age; }
-            set { _age = value; }
-        }
+
+        //public string LastName
+        //{
+        //    get { return _lastName; }
+        //    set { _lastName = value; }
+        //}
+
+        //public int Age {
+        //    get { return _age; }
+        //    set { _age = value; }
+        //}
 
         private ObservableCollection<Client> _clients;
         public ObservableCollection<Client> Clients
@@ -116,7 +118,7 @@ namespace WPF_Andersen
                 LastName = ClientTest.LastName,
                 Age = ClientTest.Age
             };
-            if (!HaveClientOnDatabase(client))
+            if (!_clientRepository.HasClientOnDatabase(client))
             {
                 _clientRepository.Create(client); // например после этого надо делать диспоуз?
                 SelectedClient = client;
@@ -124,13 +126,6 @@ namespace WPF_Andersen
             else
                 MessageBox.Show("Такой пользователь уже существует");
 
-        }
-        public bool HaveClientOnDatabase(Client client)
-        {
-            var flag = _clientRepository
-                .GetList().Where(cl => cl.FirstName == client.FirstName && cl.LastName == client.LastName && cl.Age == client.Age)
-                          .Any();
-            return flag;
         }
        
         public ClientViewModel()
@@ -164,12 +159,5 @@ namespace WPF_Andersen
             updateWindow.DataContext = viewModel;
             updateWindow.Show();
         }
-
-        //public event PropertyChangedEventHandler PropertyChanged;
-        //public void OnPropertyChanged([CallerMemberName]string prop = "")
-        //{
-        //    if (PropertyChanged != null)
-        //        PropertyChanged(this, new PropertyChangedEventArgs(prop));
-        //}
     }
 }

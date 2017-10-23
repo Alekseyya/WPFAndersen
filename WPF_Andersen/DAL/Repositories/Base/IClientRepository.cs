@@ -4,5 +4,6 @@ namespace DAL.Repositories.Base
 {
     public interface IClientRepository: IBaseRepository<Client>
     {
+        bool HasClientOnDatabase(Client client);
     }
 }

@@ -28,6 +28,14 @@ namespace DAL.Repositories
             _context.SaveChanges();
         }
 
+        public bool HasClientOnDatabase(Client client)
+        {
+            var flag = _context.Clients.ToList()
+                .Where(cl => cl.FirstName == client.FirstName && cl.LastName == client.LastName && cl.Age == client.Age)
+                .Any();
+            return flag;
+        }
+
         public Client GetItem(int id)
         {
             return _context.Clients.FirstOrDefault(x => x.Id == id);
