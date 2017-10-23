@@ -7,13 +7,24 @@ using System.Text.RegularExpressions;
 
 namespace Model.Entities
 {
-    public class Client : INotifyPropertyChanged, IDataErrorInfo
+    public delegate string ValidateProperty(string propertyName);
+    //Func<string, string>
+    public class Client : INotifyPropertyChanged
     {
         
         private int _id;
         private string _firstName;
         private string _lastName;
         private int _age;
+        
+        public event ValidateProperty OnValidateProperty;
+
+        //private bool _canValidate;
+        //public bool CanValidate
+        //{
+        //    get { return _canValidate; }
+        //    set { _canValidate = value; }
+        //}
 
         public int Id
         {
@@ -57,54 +68,85 @@ namespace Model.Entities
 
         public string Error
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
+            get { return string.Empty; }
         }
 
-        public string this[string columnName]
+        //public string this[string columnName]
+        //{
+        //    get
+        //    {
+        //        if (this.CanValidate)
+        //        {
+        //            return this.Validate(columnName);
+        //        }
+        //        return string.Empty;
+        //    }
+        //}
+
+        public string Validate(string propertyName)
         {
-            get
+            if (this.OnValidateProperty != null)
             {
-                string error = String.Empty;
-                switch (columnName)
-                {
-                    case "FirstName":
-                        if (string.IsNullOrEmpty(this.FirstName))
-                            error = "LastName can't be empty.";
-                        var message = ValidateFirstName();
-                        if (message != "Success")
-                            error = message;
-                        break;
-                    case "LastName":
-                        if (string.IsNullOrEmpty(this.LastName))
-                            error = "LastName can't be empty.";
-                            break;
-                    case "Age":
-                        if ((Age < 0) || (Age > 100))
-                        {
-                            error = "Age can't be less then 0 or more 100";
-                        }
-                        break;
-                }
-                return error;
+                return OnValidateProperty(propertyName);
             }
+            return string.Empty;
         }
 
-        public string ValidateFirstName()
-        {
-            if (string.IsNullOrEmpty(this.FirstName))
-                return "LastName can't be empty.";
+        #region Рабочий код
 
-            Regex regex = new Regex(@"^[A-Z][a-z]{3,19}$");
-            Match match = regex.Match(this.FirstName);
-            if (match.Success)
-            {
-                return "Success";
-            }
-            return "First letter uppercase and legth 3 - 19";
-        }
+        //public string Error
+        //{
+        //    get
+        //    {
+        //        throw new NotImplementedException();
+        //    }
+        //}
+
+        //public string this[string columnName]
+        //{
+        //    get
+        //    {
+        //        string error = String.Empty;
+        //        switch (columnName)
+        //        {
+        //            case "FirstName":
+        //                if (string.IsNullOrEmpty(this.FirstName))
+        //                    error = "LastName can't be empty.";
+        //                var message = ValidateFirstName();
+        //                if (message != "Success")
+        //                    error = message;
+        //                break;
+        //            case "LastName":
+        //                if (string.IsNullOrEmpty(this.LastName))
+        //                    error = "LastName can't be empty.";
+        //                    break;
+        //            case "Age":
+        //                if ((Age < 0) || (Age > 100))
+        //                {
+        //                    error = "Age can't be less then 0 or more 100";
+        //                }
+        //                break;
+        //        }
+        //        return error;
+        //    }
+        //}
+
+        //public string ValidateFirstName()
+        //{
+        //    if (string.IsNullOrEmpty(this.FirstName))
+        //        return "LastName can't be empty.";
+
+        //    Regex regex = new Regex(@"^[A-Z][a-z]{3,19}$");
+        //    Match match = regex.Match(this.FirstName);
+        //    if (match.Success)
+        //    {
+        //        return "Success";
+        //    }
+        //    return "First letter uppercase and legth 3 - 19";
+        //}
+
+        #endregion
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public void OnPropertyChanged([CallerMemberName] string prop = "")

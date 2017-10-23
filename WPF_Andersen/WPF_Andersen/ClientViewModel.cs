@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using Model.Entities;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -35,26 +37,7 @@ namespace WPF_Andersen
                 _clientTest = value;
                 OnPropertyChanged();
             } }
-        //public string FirstName
-        //{
-        //    get { return _firstName; }
-        //    set
-        //    {
-        //        _firstName = value;
-        //        OnPropertyChanged();
-        //    }
-        //}
-
-        //public string LastName
-        //{
-        //    get { return _lastName; }
-        //    set { _lastName = value; }
-        //}
-
-        //public int Age {
-        //    get { return _age; }
-        //    set { _age = value; }
-        //}
+        
 
         private ObservableCollection<Client> _clients;
         public ObservableCollection<Client> Clients
@@ -111,7 +94,17 @@ namespace WPF_Andersen
             }
         }
 
-        public bool IsLoaded { get; set; }
+        private bool _isLoaded; //--- нужен для обновления ссылки
+
+        public bool IsLoaded
+        {
+            get { return _isLoaded; }
+            set
+            {
+                _isLoaded= value;
+                OnPropertyChanged();
+            }
+        }
 
         public void Cancel()
         {
@@ -125,6 +118,22 @@ namespace WPF_Andersen
         {
             ResetSourceAndToken();
             _clientTest = new Client();
+            _clientTest.OnValidateProperty +=  new ValidateProperty(ValidateFirstName);
+            
+        }
+
+        public string ValidateFirstName(string propertyName)
+        {
+            //if (string.IsNullOrEmpty(this.FirstName))
+            //    return "LastName can't be empty.";
+
+            Regex regex = new Regex(@"^[A-Z][a-z]{3,19}$");
+            Match match = regex.Match(propertyName);
+            if (match.Success)
+            {
+                return "Success";
+            }
+            return "First letter uppercase and legth 3 - 19";
         }
 
         public void ResetSourceAndToken()
@@ -142,6 +151,7 @@ namespace WPF_Andersen
                     LastName = ClientTest.LastName,
                     Age = ClientTest.Age
                 };
+               // _clientTest.OnValidateProperty();
                 await AddMemberOnDatabase(client);
             });
         }
@@ -189,8 +199,7 @@ namespace WPF_Andersen
         {
             //Поставить свойство возвращающее
             //visibility to bool converter
-            //Isenable = false;
-            
+           
             Stopwatch sw = new Stopwatch();
             sw.Start();
             await LoadAsync();
@@ -230,7 +239,6 @@ namespace WPF_Andersen
             updateWindow.DataContext = viewModel;
             updateWindow.Show();
         }
-
-        //Добавить в метод выхода(красный крестик) token.Cancel()
+        
     }
 }
