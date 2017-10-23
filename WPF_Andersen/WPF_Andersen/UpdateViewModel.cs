@@ -9,7 +9,7 @@ namespace WPF_Andersen
     public class UpdateViewModel : PropertyChangedEvent
     {
         private Client _selectedClient;
-        private RelayCommand _updateMember;
+        private ICommand _updateMember;
 
         public Client SelectedClient
         {

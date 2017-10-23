@@ -10,6 +10,7 @@
     
     <Window.Resources>
         <converters:SimpleConverter x:Key="myConverter"></converters:SimpleConverter>
+        <converters:BoolToVisibilityConverter x:Key="BoolToHiddenConverter" TrueValue="Visible" FalseValue="Hidden" />
         <Style x:Key="RedAndWhite">
             <Setter Property="Control.FontFamily" Value="Verdana" />
             <Setter Property="Control.Background" Value="Red" />
@@ -45,7 +46,8 @@
             </DataGrid>
             <Grid>
                 <Button x:Name="UpdateButton" Content="Load" Width="60" Height="30" HorizontalAlignment="Left" Click="UpdateButton_Click"></Button>
-                <Button x:Name="DeleteMemmberButton" Visibility="Hidden" Content="DeleteMember" Width="60" Height="30" HorizontalAlignment="Center" Command="{Binding DeleteMember}" CommandParameter="{Binding SelectedClient}"></Button>
+                <Button x:Name="CancelButton" Content="Cancel" Command="{Binding CancelCommand}" Width="30" Height="30" HorizontalAlignment="Center"></Button>
+                <Button x:Name="DeleteMemmberButton" Content="DeleteMember" Width="60" Height="30" HorizontalAlignment="Right" Command="{Binding DeleteMember}" CommandParameter="{Binding SelectedClient}"></Button>
                 <!--<Image Source="Resources/smile.png" Height="50" Width="50">
                     <Image.RenderTransform>
                         <RotateTransform x:Name="rotate"
@@ -65,13 +67,13 @@
                     </Image.Triggers>
                 </Image>-->
             </Grid>
-            <StackPanel x:Name="AddMember" Visibility="Hidden">
+            <StackPanel x:Name="AddMemberPanel" Visibility="{Binding IsLoaded, Converter={StaticResource BoolToHiddenConverter}}">
                 <StackPanel HorizontalAlignment="Center">
                     <StackPanel>
                         <TextBlock Margin="0 10 0 5">FirstName</TextBlock>
                         <TextBox x:Name="FirstNameTextBox" Validation.Error="TextBox_Error">
                             <TextBox.Text>
-                                <Binding Path="ClientTest.FirstName">
+                                <Binding Path="ClientTest.FirstName" UpdateSourceTrigger="PropertyChanged">
                                     <Binding.ValidationRules>
                                         <DataErrorValidationRule />
                                     </Binding.ValidationRules>
@@ -94,4 +96,6 @@
         
     </Grid>
 </Window>
+
+
 

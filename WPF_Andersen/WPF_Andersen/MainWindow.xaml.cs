@@ -8,10 +8,11 @@ namespace WPF_Andersen
 {
     public partial class MainWindow : Window
     {
-        private bool _updateButtonClick = false;
+        private bool _updateButtonClick;
         public MainWindow()
         {
             InitializeComponent();
+            _updateButtonClick = false;
             DataContext = new ClientViewModel();
 
             DoubleAnimation buttonAnimation = new DoubleAnimation();
@@ -38,8 +39,8 @@ namespace WPF_Andersen
                 await viewModel.Load();
             }
 
-            DeleteMemmberButton.Visibility = Visibility.Visible;
-            AddMember.Visibility = Visibility.Visible;
+            //DeleteMemmberButton.Visibility = Visibility.Visible;
+            //AddMemberPanel.Visibility = Visibility.Visible;
         }
 
 
@@ -55,5 +56,6 @@ namespace WPF_Andersen
         {
             MessageBox.Show(e.Error.ErrorContent.ToString());
         }
+        
     }
 }

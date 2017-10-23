@@ -70,6 +70,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ClientViewModel.cs" />
+    <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\SimpleConverter.cs" />
     <Compile Include="IoC\IoC.cs" />
     <Compile Include="PropertyChangedEvent.cs" />

@@ -15,8 +15,9 @@ namespace WPF_Andersen
     public class ClientViewModel : PropertyChangedEvent
     {
         private Client _selectedClient;
-        private RelayCommand _addMember;
-        private RelayCommand _deleteMember;
+        private ICommand _addMember;
+        private ICommand _deleteMember;
+        private ICommand _cancelCommand;
 
         public CancellationTokenSource tokenSource;
         private CancellationToken token;
@@ -87,6 +88,7 @@ namespace WPF_Andersen
                 return _deleteMember;
             }
         }
+
         public ICommand AddMember {
             get {
                 if (_addMember == null)
@@ -96,7 +98,29 @@ namespace WPF_Andersen
                 return _addMember;
             }
         }
-       
+
+        public ICommand CancelCommand
+        {
+            get
+            {
+                if (_cancelCommand == null)
+                {
+                    Cancel();
+                }
+                return _cancelCommand;
+            }
+        }
+
+        public bool IsLoaded { get; set; }
+
+        public void Cancel()
+        {
+            _cancelCommand = new RelayCommand(obj =>
+            {
+                tokenSource.Cancel();
+            });
+        }
+
         public ClientViewModel()
         {
             ResetSourceAndToken();
@@ -121,7 +145,7 @@ namespace WPF_Andersen
                 await AddMemberOnDatabase(client);
             });
         }
-
+        
         public async Task AddMemberOnDatabase(Client client)
         {
             await Task.Run(() =>
@@ -163,23 +187,28 @@ namespace WPF_Andersen
        
         public async Task Load()
         {
+            //Поставить свойство возвращающее
+            //visibility to bool converter
+            //Isenable = false;
+            
             Stopwatch sw = new Stopwatch();
             sw.Start();
             await LoadAsync();
+            IsLoaded = true;
             sw.Stop();
             TimeSpan ts = sw.Elapsed;
             
             string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
                 ts.Hours, ts.Minutes, ts.Seconds,
                 ts.Milliseconds / 10);
-            MessageBox.Show(elapsedTime);
+            //MessageBox.Show(elapsedTime);
         }
 
         private async Task LoadAsync()
         {
             await Task.Run(() =>
             {
-                Thread.Sleep(5000);
+                //Thread.Sleep(5000);
                 if (token.IsCancellationRequested)
                 {
                     MessageBox.Show("Операция отменена");
