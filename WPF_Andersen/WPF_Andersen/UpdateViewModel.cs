@@ -8,7 +8,6 @@ namespace WPF_Andersen
 {
     public class UpdateViewModel : PropertyChangedEvent
     {
-        private IClientRepository _clientRepository;
         private Client _selectedClient;
         private RelayCommand _updateMember;
 
@@ -45,14 +44,16 @@ namespace WPF_Andersen
 
         public void UpdateMemberOnDatabase()
         {
-            var client = SelectedClient;
-            _clientRepository.Update(client);
+            using (IClientRepository repo = IoC.IoC.Get<IClientRepository>())
+            {
+                var client = SelectedClient;
+                repo.Update(client);
+            }
         } 
 
         public UpdateViewModel(Client client)
         {
             SelectedClient = client;
-            _clientRepository = IoC.IoC.Get<IClientRepository>();
         }
     }
 }

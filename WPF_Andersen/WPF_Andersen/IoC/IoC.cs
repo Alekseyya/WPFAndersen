@@ -11,7 +11,7 @@ namespace WPF_Andersen.IoC
         static IoC()
         {
             _kernel = new StandardKernel();
-            _kernel.Bind<IClientRepository>().To<ClientRepository>();
+            _kernel.Bind<IClientRepository>().To<ClientRepository>().InTransientScope();
             //_kernel.bind.to.....
 
         }

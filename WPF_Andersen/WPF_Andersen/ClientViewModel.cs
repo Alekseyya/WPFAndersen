@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using Model.Entities;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -13,7 +15,6 @@ namespace WPF_Andersen
     public class ClientViewModel : PropertyChangedEvent
     {
         private Client _selectedClient;
-        private IClientRepository _clientRepository;
         private RelayCommand _addMember;
         private RelayCommand _deleteMember;
 
@@ -100,8 +101,6 @@ namespace WPF_Andersen
         {
             ResetSourceAndToken();
             _clientTest = new Client();
-            // получается мы тут сохдаем объект
-            _clientRepository = IoC.IoC.Get<IClientRepository>();
         }
 
         private void ResetSourceAndToken()
@@ -111,63 +110,63 @@ namespace WPF_Andersen
         }
         public void Add()
         {
-            var client = new Client()
+            _addMember = new RelayCommand(async obj =>
             {
-                FirstName = ClientTest.FirstName,
-                LastName = ClientTest.LastName,
-                Age = ClientTest.Age
-            };
-            _addMember = new RelayCommand(obj =>
-            {
-                AddMemberOnDatabase(client);
+                var client = new Client()
+                {
+                    FirstName = ClientTest.FirstName,
+                    LastName = ClientTest.LastName,
+                    Age = ClientTest.Age
+                };
+                await AddMemberOnDatabase(client);
             });
         }
 
-        public void AddMemberOnDatabase(Client client)
+        public async Task AddMemberOnDatabase(Client client)
         {
-            if (!_clientRepository.HasClientOnDatabase(client))
+            await Task.Run(() =>
             {
-                _clientRepository.Create(client); // например после этого надо делать диспоуз?
-                SelectedClient = client;
-            }
-            else
-                MessageBox.Show("Такой пользователь уже существует");
-        }
-
-        public void Delete()
-        {
-            _deleteMember = new RelayCommand(obj =>
-            {
-                Client client = obj as Client;
-                if (client != null)
+                using (IClientRepository repo = IoC.IoC.Get<IClientRepository>())
                 {
-                    DeleteMemberOnDatabase(client);
+                    if (!repo.HasClientOnDatabase(client))
+                        repo.Create(client);
+                    else
+                        MessageBox.Show("Такой пользователь уже существует");
                 }
             });
         }
 
-        public void DeleteMemberOnDatabase(Client client)
+        public void Delete()
         {
-            _clientRepository.Delete(client.Id);
-            Clients.Remove(client);
+            _deleteMember = new RelayCommand(async obj =>
+            {
+                Client client = obj as Client;
+                if (client != null)
+                {
+                    await DeleteMemberOnDatabase(client);
+                }
+            });
         }
 
+        public async Task DeleteMemberOnDatabase(Client client)
+        {
+            await Task.Run(() =>
+            {
+                Thread.Sleep(5000);
+                using (IClientRepository repo = IoC.IoC.Get<IClientRepository>())
+                {
+                    repo.Delete(client.Id);
+                }
+            });
+            Clients.Remove(client);
+        }
        
         //Недоделано..
         public async Task Load()
         {
             Stopwatch sw = new Stopwatch();
             sw.Start();
-            await Task.Run(() =>
-            {
-                Thread.Sleep(5000);
-                if (token.IsCancellationRequested)
-                {
-                    MessageBox.Show("Операция отменена");
-                    return;
-                }
-                Clients = new ObservableCollection<Client>(_clientRepository.GetList());
-            }, token);
+            await LoadAsync();
             sw.Stop();
             TimeSpan ts = sw.Elapsed;
             
@@ -175,6 +174,25 @@ namespace WPF_Andersen
                 ts.Hours, ts.Minutes, ts.Seconds,
                 ts.Milliseconds / 10);
             MessageBox.Show(elapsedTime);
+        }
+
+        public async Task LoadAsync()
+        {
+            await Task.Run(() =>
+            {
+                //Thread.Sleep(5000);
+                if (token.IsCancellationRequested)
+                {
+                    MessageBox.Show("Операция отменена");
+                    return;
+                }
+                var listClients = new List<Client>();
+                using (IClientRepository repo = IoC.IoC.Get<IClientRepository>())
+                {
+                    listClients = repo.GetList().ToList();
+                }
+                Clients = new ObservableCollection<Client>(listClients);
+            }, token);
         }
         public void Open(object client)
         {
