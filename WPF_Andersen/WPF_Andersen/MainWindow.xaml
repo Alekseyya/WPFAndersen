@@ -67,7 +67,7 @@
                     </StackPanel>
                 </StackPanel>
                 <Grid>
-                    <Button x:Name="AddMemberButton" Content="Add" Width="30" Height="30" HorizontalAlignment="Center" Command="{Binding AddMember}" Style="{StaticResource RedAndWhite}">
+                    <Button x:Name="AddMemberButton" Content="Add" Width="30" Height="30" HorizontalAlignment="Center" Command="{Binding AddMemberTest}" Style="{StaticResource RedAndWhite}">
                         
                     </Button>
                 </Grid>
