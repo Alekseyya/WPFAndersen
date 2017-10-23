@@ -9,6 +9,7 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 using DAL.Repositories.Base;
 using WPF_Andersen.IoC;
 
@@ -24,16 +25,25 @@ namespace WPF_Andersen
         private string _firstName;
         private string _lastName;
         private int _age = 0;
-        
-        public string FirstName
-        {
-            get { return _firstName; }
+
+        private Client _clientTest;
+
+        public Client ClientTest{
+            get { return _clientTest; }
             set
             {
-                _firstName = value;
+                _clientTest = value;
                 OnPropertyChanged();
-            }
-        }
+            } }
+        //public string FirstName
+        //{
+        //    get { return _firstName; }
+        //    set
+        //    {
+        //        _firstName = value;
+        //        OnPropertyChanged();
+        //    }
+        //}
         public string LastName
         {
             get { return _lastName; }
@@ -83,6 +93,9 @@ namespace WPF_Andersen
             }
         }
 
+        public ICommand IP { get; set; }
+
+
         public RelayCommand AddMember
         {
             get
@@ -99,13 +112,13 @@ namespace WPF_Andersen
         {
             var client = new Client()
             {
-                FirstName = FirstName,
-                LastName = LastName,
-                Age = Age
+                FirstName = ClientTest.FirstName,
+                LastName = ClientTest.LastName,
+                Age = ClientTest.Age
             };
             if (!HaveClientOnDatabase(client))
             {
-                _clientRepository.Create(client);
+                _clientRepository.Create(client); // например после этого надо делать диспоуз?
                 SelectedClient = client;
             }
             else
@@ -122,6 +135,8 @@ namespace WPF_Andersen
        
         public ClientViewModel()
         {
+            _clientTest = new Client();
+            // получается мы тут сохдаем объект
             _clientRepository = IoC.IoC.Get<IClientRepository>();
         }
 
@@ -131,7 +146,7 @@ namespace WPF_Andersen
             sw.Start();
             await Task.Run(() =>
             {
-                Thread.Sleep(5000);
+                //Thread.Sleep(5000);
                 Clients = new ObservableCollection<Client>(_clientRepository.GetList());
             });
             sw.Stop();

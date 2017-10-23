@@ -7,8 +7,7 @@ namespace Model.Entities
 {
     public class Client : INotifyPropertyChanged
     {
-        //Поймет ли все это флюент?
-
+        
         private int _id;
         private string _firstName;
         private string _lastName;
