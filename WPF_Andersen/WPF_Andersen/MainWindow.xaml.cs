@@ -26,6 +26,8 @@ namespace WPF_Andersen
         {
             var viewModel = DataContext as ClientViewModel;
             if(viewModel == null) return;
+            if (viewModel.tokenSource.IsCancellationRequested)
+                viewModel.ResetSourceAndToken();
             await viewModel.Load();
             DeleteMemmberButton.Visibility = Visibility.Visible;
             AddMember.Visibility = Visibility.Visible;
@@ -44,6 +46,11 @@ namespace WPF_Andersen
             //updateWindow.Show();
             //DataContext = selectedClient;
             //DataContext = _allClients;
+        }
+
+        private void TextBox_Error(object sender, ValidationErrorEventArgs e)
+        {
+            MessageBox.Show(e.Error.ErrorContent.ToString());
         }
     }
 }

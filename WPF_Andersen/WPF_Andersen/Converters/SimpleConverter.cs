@@ -19,7 +19,6 @@ namespace WPF_Andersen.Converters
             {
                 return returnedValue;
             }
-  //<--------          //Вот тут не знаю как вместо эксемшена на форме предупредения кидать
             throw new Exception("The text is not a number");
         }
     }

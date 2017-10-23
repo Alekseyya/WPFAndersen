@@ -18,7 +18,7 @@ namespace WPF_Andersen
         private RelayCommand _addMember;
         private RelayCommand _deleteMember;
 
-        private CancellationTokenSource tokenSource;
+        public CancellationTokenSource tokenSource;
         private CancellationToken token;
 
         private string _firstName;
@@ -103,7 +103,7 @@ namespace WPF_Andersen
             _clientTest = new Client();
         }
 
-        private void ResetSourceAndToken()
+        public void ResetSourceAndToken()
         {
             tokenSource = new CancellationTokenSource();
             token = tokenSource.Token;
@@ -180,7 +180,7 @@ namespace WPF_Andersen
         {
             await Task.Run(() =>
             {
-                //Thread.Sleep(5000);
+                Thread.Sleep(5000);
                 if (token.IsCancellationRequested)
                 {
                     MessageBox.Show("Операция отменена");
