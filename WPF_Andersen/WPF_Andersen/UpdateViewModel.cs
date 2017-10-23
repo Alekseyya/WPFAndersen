@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
+using System.Windows.Input;
 using DAL.Repositories.Base;
 using Model.Entities;
 
@@ -21,20 +22,32 @@ namespace WPF_Andersen
             }
         }
 
-        public RelayCommand UpdateMember
+        public ICommand UpdateMember
         {
             get
             {
-                return _updateMember ??
-                       (_updateMember = new RelayCommand(obj =>
-                       {
-                           var client = SelectedClient;
-                           _clientRepository.Update(client);
-                           SelectedClient = client;
-                           MessageBox.Show("Update competed");
-                       }));
+                if (_updateMember == null)
+                {
+                    Update();
+                }
+                return _updateMember;
             }
         }
+
+        public void Update()
+        {
+            _updateMember = new RelayCommand(obj =>
+            {
+                UpdateMemberOnDatabase();
+                MessageBox.Show("Update competed");
+            });
+        }
+
+        public void UpdateMemberOnDatabase()
+        {
+            var client = SelectedClient;
+            _clientRepository.Update(client);
+        } 
 
         public UpdateViewModel(Client client)
         {

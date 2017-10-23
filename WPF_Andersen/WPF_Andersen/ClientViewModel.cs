@@ -86,7 +86,7 @@ namespace WPF_Andersen
                 return _deleteMember;
             }
         }
-        public ICommand AddMemberTest {
+        public ICommand AddMember {
             get {
                 if (_addMember == null)
                 {
