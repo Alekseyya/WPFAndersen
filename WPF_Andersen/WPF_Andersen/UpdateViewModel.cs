@@ -118,12 +118,11 @@ namespace WPF_Andersen
                 var findElemet = SelectedDirectory[0];
                 TmpDirectories.Add(findElemet);
 
-                //Утанавлием уровень
+                //Устанавлием уровень
                 Level = 1;
                 ComboList.Add(new ComboItem(findElemet, Level).ToString());
 
                 CLRTree(findElemet, SelectedDirectory);
-
 
                 //выйдет если проверит одно дерево
                 while (TmpDirectories.Count != 0)
@@ -142,7 +141,7 @@ namespace WPF_Andersen
 
             while (true)
             {
-                findElemet = FindEqualsSubfolder(findElemet, directions); //111\11\12
+                findElemet = FindEqualsSubfolder(findElemet, directions); 
                 if (findElemet != "")
                 {
                     ++Level;
@@ -196,20 +195,20 @@ namespace WPF_Andersen
             });
         }
 
-        public async Task<MyDirectory> GetDirectoryInfo(string path)
-        {
-            return await Task.Run(() =>
-            {
-                var dir = new DirectoryInfo(path);
-                var myDirectory = new MyDirectory();
-                if (dir.Parent != null)
-                {
-                    myDirectory.Parent = dir.Parent.ToString();
-                    myDirectory.Child = dir.Name;
-                }
-                return myDirectory;
-            });
-        }
+        //public async Task<MyDirectory> GetDirectoryInfo(string path)
+        //{
+        //    return await Task.Run(() =>
+        //    {
+        //        var dir = new DirectoryInfo(path);
+        //        var myDirectory = new MyDirectory();
+        //        if (dir.Parent != null)
+        //        {
+        //            myDirectory.Parent = dir.Parent.ToString();
+        //            myDirectory.Child = dir.Name;
+        //        }
+        //        return myDirectory;
+        //    });
+        //}
 
         public UpdateViewModel()
         {

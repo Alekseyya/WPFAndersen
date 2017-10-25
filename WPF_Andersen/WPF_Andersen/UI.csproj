@@ -74,7 +74,6 @@
     <Compile Include="ComboItem.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\SimpleConverter.cs" />
-    <Compile Include="MyDirectory.cs" />
     <Compile Include="IoC\IoC.cs" />
     <Compile Include="PropertyChangedEvent.cs" />
     <Compile Include="RelayCommand.cs" />
