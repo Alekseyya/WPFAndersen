@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:WPF_Andersen"
         mc:Ignorable="d"
         Title="UpdateWindow" Height="300" Width="300">
-    <Grid>
+    <!--<Grid>
         <StackPanel>
             <StackPanel HorizontalAlignment="Center">
                 <StackPanel DataContext="{Binding SelectedClient}">
@@ -25,5 +25,10 @@
         
         
 
-    </Grid>
+    </Grid>-->
+    <Grid>
+        <ComboBox x:Name="ComboBoxTree" ItemsSource="{Binding Directories}" Height="50" Width="150" VerticalAlignment="Top">
+        </ComboBox>
+        <Button x:Name="Load" Width="60" Height="30" Content="Загрузить" Command="{Binding LoadDirectories}"></Button>
+    </Grid>   
 </Window>

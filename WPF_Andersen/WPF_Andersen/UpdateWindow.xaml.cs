@@ -22,6 +22,7 @@ namespace WPF_Andersen
         public UpdateWindow()
         {
             InitializeComponent();
+            DataContext = new UpdateViewModel();
         }
     }
 }

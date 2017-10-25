@@ -47,6 +47,7 @@
       <HintPath>..\packages\Ninject.3.3.1\lib\net45\Ninject.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="PresentationFramework.Aero2" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
@@ -70,8 +71,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ClientViewModel.cs" />
+    <Compile Include="ComboItem.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\SimpleConverter.cs" />
+    <Compile Include="MyDirectory.cs" />
     <Compile Include="IoC\IoC.cs" />
     <Compile Include="PropertyChangedEvent.cs" />
     <Compile Include="RelayCommand.cs" />

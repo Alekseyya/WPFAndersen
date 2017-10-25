@@ -234,10 +234,10 @@ namespace WPF_Andersen
 
         public void Open(object client)
         {
-            var updateWindow = new UpdateWindow();
-            var viewModel = new UpdateViewModel((Client)client);
-            updateWindow.DataContext = viewModel;
-            updateWindow.Show();
+            //var updateWindow = new UpdateWindow();
+            //var viewModel = new UpdateViewModel((Client)client);
+            //updateWindow.DataContext = viewModel;
+            //updateWindow.Show();
         }
         
     }
